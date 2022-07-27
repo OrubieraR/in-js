@@ -24,6 +24,7 @@ const temporalFinal=[];
 const finalWinnerTeam=[];
 const buffer1=[];
 const buffer2=[];
+const temporalLoosers=[];
 let num, num2, tempArray, winner;
 
 // Fake index for random teams
@@ -73,7 +74,7 @@ function goals(a,b){
 }
 
 // Calculating winners and next round teams
-function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundArray){
+function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundArray,temporalLoosers){
     for (let i = 0; i < goalsArray.length; i++) {
         let difGoals;
         for (let j = 0; j < goalsArray[i].length; j++) {
@@ -83,6 +84,9 @@ function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundA
                 if (difGoals>0) {
                     nextRoundArray.push(winnersArray[i][0]);
                     temporalRoundArray.push(winnersArray[i][0]);
+                    if (temporalLoosers) {
+                        temporalLoosers.push(winnersArray[i][1]);
+                    }
                 }
         
                 else if(difGoals===0){
@@ -97,20 +101,32 @@ function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundA
                         if (tempGoals>tempGoals2) {
                             nextRoundArray.push(winnersArray[i][0]+' (Penaltis: '+tempGoals+' - '+ tempGoals2+')');
                             temporalRoundArray.push(winnersArray[i][0]);
+                            if (temporalLoosers) {
+                                temporalLoosers.push(winnersArray[i][1]);
+                            }
                         }
                         else{
                             nextRoundArray.push(winnersArray[i][1]+' (Penaltis: '+tempGoals+' - '+ tempGoals2+')');
                             temporalRoundArray.push(winnersArray[i][1]);
+                            if (temporalLoosers) {
+                                temporalLoosers.push(winnersArray[i][0]);
+                            }
                         }
                     }
                     else{
                         if (tempGoals>tempGoals2) {
                             nextRoundArray.push(winnersArray[i][0]+' (Penaltis: '+tempGoals+' - '+ tempGoals2+')');
                             temporalRoundArray.push(winnersArray[i][0]);
+                            if (temporalLoosers) {
+                                temporalLoosers.push(winnersArray[i][1]);
+                            }
                         }
                         else{
                             nextRoundArray.push(winnersArray[i][1]+' (Penaltis: '+tempGoals+' - '+ tempGoals2+')');
                             temporalRoundArray.push(winnersArray[i][1]);
+                            if (temporalLoosers) {
+                                temporalLoosers.push(winnersArray[i][0]);
+                            }
                         }
                     }
                 }
@@ -118,6 +134,9 @@ function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundA
                 else {
                     nextRoundArray.push(winnersArray[i][1]);
                     temporalRoundArray.push(winnersArray[i][1]);
+                    if (temporalLoosers) {
+                        temporalLoosers.push(winnersArray[i][0]);
+                    }
                 }
             }
         }
@@ -242,7 +261,7 @@ semiTeams.push(buffer1,buffer2);
 
 // Calculating winners semifinals
 semisGoals=goals(semiTeams.length,2);
-winnerTeamsRounds(semisGoals,semiTeams,semisWinnerTeams,temporalSemis);
+winnerTeamsRounds(semisGoals,semiTeams,semisWinnerTeams,temporalSemis,temporalLoosers);
 
 semiTeamsMsg=`===== SEMIFINALES =====
     ${semiTeams[0][0]} ${semisGoals[0][0]} - ${semisGoals[0][1]} ${semiTeams[0][1]} => ${semisWinnerTeams[0]}
@@ -252,17 +271,17 @@ console.log(semiTeamsMsg);
 
 
 
-
+consolTeams.push(temporalLoosers);
 // Calculating winners consolation
-/*consolGoals=goals(consolTeams.length,2);
+consolGoals=goals(consolTeams.length,2);
 winnerTeamsRounds(consolGoals,consolTeams,consolWinnerTeam,temporalConsol);
 consolTeamsMsg=`===== TERCER Y CUARTO PUESTO =====
     ${consolTeams[0][0]} ${consolGoals[0][0]} - ${consolGoals[0][1]} ${consolTeams[0][1]} => ${consolWinnerTeam[0]}
-`;*/
+`;
+console.log(consolTeamsMsg);
 
 
 finalTeams.push(temporalSemis);
-
 // Calculating final winners
 finalGoals=goals(finalTeams.length,2);
 winnerTeamsRounds(finalGoals,finalTeams,finalWinnerTeam,temporalFinal);
