@@ -2,7 +2,7 @@
 let playoffStartMsg=`====================================================
 === COMIENZAN LAS FASES ELIMINATORIAS DEL TORNEO ===
 ====================================================`;
-let teams4PlayoffMsg, quarterTeamsMsg, quarterGoals, semiTeamsMsg, semisGoals, consolTeamsMsg, finalTeamsMsg, winnerMsg;
+let teams4PlayoffMsg, quarterTeamsMsg, quarterGoals, semiTeamsMsg, semisGoals, consolTeamsMsg, consolGoals,finalTeamsMsg, finalGoals, winnerMsg;
 
 
 /*Playoffs initial teams*/
@@ -17,7 +17,11 @@ const semiTeams=[];
 const temporalSemis=[];
 const semisWinnerTeams=[];
 const consolTeams=[];
+const temporalConsol=[];
+const consolWinnerTeam=[];
 const finalTeams=[];
+const temporalFinal=[];
+const finalWinnerTeam=[];
 const buffer1=[];
 const buffer2=[];
 let num, num2, tempArray, winner;
@@ -96,7 +100,7 @@ function winnerTeamsRounds(goalsArray,winnersArray,nextRoundArray,temporalRoundA
                         }
                         else{
                             nextRoundArray.push(winnersArray[i][1]+' (Penaltis: '+tempGoals+' - '+ tempGoals2+')');
-                            temporalRoundArray.push(quarterTeams[i][1]);
+                            temporalRoundArray.push(winnersArray[i][1]);
                         }
                     }
                     else{
@@ -225,7 +229,6 @@ console.log(quarterTeamsMsg);
 
 // Creating semifinals matches
 // console.log(temporalQuarter);
-
 for (let i = 0; i < temporalQuarter.length; i++) {
     if (i%2 === 0) {
         buffer1.push(temporalQuarter[i]);
@@ -246,3 +249,30 @@ semiTeamsMsg=`===== SEMIFINALES =====
     ${semiTeams[1][0]} ${semisGoals[1][0]} - ${semisGoals[1][1]} ${semiTeams[1][1]} => ${semisWinnerTeams[1]}
 `;
 console.log(semiTeamsMsg);
+
+
+
+
+// Calculating winners consolation
+/*consolGoals=goals(consolTeams.length,2);
+winnerTeamsRounds(consolGoals,consolTeams,consolWinnerTeam,temporalConsol);
+consolTeamsMsg=`===== TERCER Y CUARTO PUESTO =====
+    ${consolTeams[0][0]} ${consolGoals[0][0]} - ${consolGoals[0][1]} ${consolTeams[0][1]} => ${consolWinnerTeam[0]}
+`;*/
+
+
+finalTeams.push(temporalSemis);
+
+// Calculating final winners
+finalGoals=goals(finalTeams.length,2);
+winnerTeamsRounds(finalGoals,finalTeams,finalWinnerTeam,temporalFinal);
+finalTeamsMsg=`===== FINAL =====
+    ${finalTeams[0][0]} ${finalGoals[0][0]} - ${finalGoals[0][1]} ${finalTeams[0][1]} => ${finalWinnerTeam[0]}
+`;
+console.log(finalTeamsMsg);
+
+winnerMsg=`
+==============================================================
+       ¡${temporalFinal} campeona de la EURO WOMEN’S CUP!
+==============================================================`;
+console.log(winnerMsg);
