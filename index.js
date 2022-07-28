@@ -1,8 +1,18 @@
 /*Information in variables*/
+let phaseGroupsStartMsg=`Grupos y equipos\n===============================\n`;
+
 let playoffStartMsg=`====================================================
 === COMIENZAN LAS FASES ELIMINATORIAS DEL TORNEO ===
 ====================================================`;
 let teams4PlayoffMsg, quarterTeamsMsg, quarterGoals, semiTeamsMsg, semisGoals, consolTeamsMsg, consolGoals,finalTeamsMsg, finalGoals, winnerMsg;
+
+
+/*Groups matches teams raw (not in groups)*/
+const originalGroups=['Inglaterra','Austria','Noruega','Irlanda','Alemania','Dinamarca','España','Finlandia','Holanda','Suecia','Rusia','Suiza','Francia','Italia','Bélgica','Islandia'];
+const originalGroupsLength=originalGroups.length;
+const groupsAvailable=['A','B','C','D'];
+
+const initGroupsPO=[];
 
 
 /*Playoffs initial teams*/
@@ -27,7 +37,62 @@ const buffer2=[];
 const temporalLoosers=[];
 let num, num2, tempArray, winner;
 
-// Fake index for random teams
+
+/*==============================================================
+                Groups phase code below here
+ ==============================================================*/
+
+//  Calculating groups
+// Creating a fake index using Fisher Yates Shuffle method
+for (let i = 0; i < originalGroupsLength; i++) {
+    fakeIndex.push(i);
+}
+
+// Fisher Yates Shuffle method
+for (let i = fakeIndex.length -1; i > 0; i--) {
+    let j = Math.floor(Math.random() * i)
+    let k = fakeIndex[i]
+    fakeIndex[i] = fakeIndex[j]
+    fakeIndex[j] = k
+} 
+
+// Random selected teams for groups phase
+function randomTeamsGPhase(){
+    let j=0;
+    const tempArray=[];
+    for (let i = 0; i < originalGroupsLength; i++) {
+        let aa=fakeIndex[i];
+        tempArray.push(originalGroups[aa]);
+        j++;
+        if (j>3) {
+            const a=tempArray.slice();
+            initGroupsPO.push(a);
+            j=0;
+            tempArray.length=0;
+        }
+    }
+}
+randomTeamsGPhase();
+// console.log(initGroupsPO);
+// console.log(fakeIndex);
+fakeIndex.length=0;
+
+for (let i = 0; i < initGroupsPO.length; i++) {
+    let a = groupsAvailable[i];
+    phaseGroupsStartMsg+=`\nGrupo ${a}\n--------------------`;
+    for (let j = 0; j < initGroupsPO[i].length; j++) {
+        phaseGroupsStartMsg+=`\n${initGroupsPO[i][j]}`;
+        
+    }
+    phaseGroupsStartMsg+=`\n`;
+}
+
+console.log(phaseGroupsStartMsg);
+
+/*==============================================================
+                    Playoffs code below here
+ ==============================================================*/
+// Fake index for random teams for playoffs
 for (let i = 0; i < initGroupsLength; i++) {
     num=randomNumber(4);
     tempArray=[num];
@@ -41,6 +106,7 @@ for (let i = 0; i < initGroupsLength; i++) {
     tempArray.push(num2);
     fakeIndex.push(tempArray);
 }
+//  console.log(fakeIndex);
 
 // Random selected teams for playoffs
 for (let i = 0; i < initGroupsLength; i++) {
@@ -53,6 +119,9 @@ for (let i = 0; i < initGroupsLength; i++) {
 }
 
 
+/*==============================================================
+                        FUNCTIONS below here
+ ==============================================================*/
 
 // Random number function for select playoffs teams and for goals too
 function randomNumber(max){
