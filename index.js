@@ -11,6 +11,7 @@ let teams4PlayoffMsg, quarterTeamsMsg, quarterGoals, semiTeamsMsg, semisGoals, c
 const originalGroups=['Inglaterra','Austria','Noruega','Irlanda','Alemania','Dinamarca','España','Finlandia','Holanda','Suecia','Rusia','Suiza','Francia','Italia','Bélgica','Islandia'];
 const originalGroupsLength=originalGroups.length;
 const groupsAvailable=['A','B','C','D'];
+const schemeMatches=[[0,3,1,2],[3,2,0,1],[1,3,2,0]];
 
 const initGroupsPO=[];
 
@@ -50,10 +51,10 @@ for (let i = 0; i < originalGroupsLength; i++) {
 
 // Fisher Yates Shuffle method
 for (let i = fakeIndex.length -1; i > 0; i--) {
-    let j = Math.floor(Math.random() * i)
-    let k = fakeIndex[i]
-    fakeIndex[i] = fakeIndex[j]
-    fakeIndex[j] = k
+    let j = Math.floor(Math.random() * i);
+    let k = fakeIndex[i];
+    fakeIndex[i] = fakeIndex[j];
+    fakeIndex[j] = k;
 } 
 
 // Random selected teams for groups phase
@@ -85,6 +86,22 @@ for (let i = 0; i < initGroupsPO.length; i++) {
         
     }
     phaseGroupsStartMsg+=`\n`;
+
+    // Creating matches between group teams
+    for (let k = 0; k < schemeMatches.length; k++) {
+        phaseGroupsStartMsg+=`\nJornada ${k+1}:`;
+        for (let m = 0; m < schemeMatches[k].length; m++) {
+            if (m%2===0) {
+                let aa=schemeMatches[k][m];
+                let bb=schemeMatches[k][m+1];
+                phaseGroupsStartMsg+=`\n - ${initGroupsPO[i][aa]} vs ${initGroupsPO[i][bb]}`;
+            }
+        }
+        phaseGroupsStartMsg+=`\n`;
+    }
+
+    phaseGroupsStartMsg+=`\n`;
+
 }
 
 console.log(phaseGroupsStartMsg);
