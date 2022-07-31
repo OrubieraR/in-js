@@ -9,10 +9,10 @@ Javascript introduction
 
 
  ### Notas del autor
- No es que esté especialmente orgulloso del código que he hecho. Tenía en mente pulir bastantes cosas, así como separar el código en diferentes páginas para trabajar mejor con él y que sea más entendible. También me ha faltado comentar más el código.
+ No es que esté especialmente orgulloso del código que he hecho. Tenía en mente pulir bastantes cosas, hacer más funciones que podrían evitar código repetido, así como separar el código en diferentes páginas para trabajar mejor con él y que sea más entendible. También me ha faltado comentar más el código.
 
  Me pasé atascado un par de días en la parte de pintar cada una de las 3 jornadas.
 
  Como experiencia me llevo bastante aprendido en cuanto a al uso del depurador y a la gestión de la frustración que van apareciendo por el camino e impiden avanzar. En cuanto a los bucles "matrioska" también me llevo algo de eperiencia, creo que he llegado a 4 anidados. Supongo que seguramente se podría haber hecho más fácil.
  
- También me hubiese gustado hacer el código con un JS más moderno como el que vimos en clase, pero creo que no hubiese podido avanzar tanto porque no estoy acostumbrado a codificar así. Además, tenía a "Tito Damocles" apuntando desde arriba con su espada, que estaba queriendo dejarla caer y acertarme en la cabeza el muy gracioso. :P
+ También me hubiese gustado hacer el código con un JS más moderno como el que vimos en clase, pero creo que no hubiese podido avanzar tanto porque no estoy acostumbrado a codificar así. Mi intención es aprovechar el tiempo de descanso para mejorarlo e intentar acabarlo hasta el final. Además, tenía a "Tito Damocles" apuntando desde arriba con su espada, que estaba queriendo dejarla caer y acertarme en la cabeza el muy gracioso. :P
