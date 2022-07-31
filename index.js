@@ -20,7 +20,11 @@ const schemeMatches=[[0,3,1,2],[3,2,0,1],[1,3,2,0]];
 const orderingJourneys=[];
 const journeyMatches=[];
 const journeyGoals=[];
-
+let templateResults=`\nPosición       Equipo        Puntos        Goles Favor       Goles Contra        Dif. Goles\n---------------------------------------------------------------------------------------------------\n`;
+const journeyResults1=[];
+const journeyResults2=[];
+const journeyResults3=[];
+const totalResult=[];
 
 const initGroupsPO=[];
 
@@ -155,40 +159,61 @@ for (let i = 0; i < journeyMatches[i].length; i++) {
 
 // Playing journey matches
 for (let i = 0; i < orderingJourneys.length; i++) {
+    const tempResults=[];
     for (let j = 0; j < orderingJourneys[i].length; j++) {
         matchesJourneys+=`\nGrupo ${groupsAvailable[j]} - Jornada ${(i+1)}:\n------------------------------\n`;
+        
+        
+        const tempResults3=[];
         for (let k = 0; k < orderingJourneys[i][j].length; k++) {
             for (let l = 0; l < orderingJourneys[i][j][k].length; l++) {
                 if (l%2===0) {
+                    const tempResults1=[];
+                    const tempResults2=[];
                     let goalsTemp=goals(orderingJourneys[i][j][k].length/2,8);
                     matchesJourneys+=`${orderingJourneys[i][j][k][l]} ${goalsTemp[0][0]} - ${goalsTemp[0][1]} ${orderingJourneys[i][j][k][l+1]} \n`;
-                }
-            }   
+
+                    tempResults1.push(orderingJourneys[i][j][k][l],calculatingPoints(goalsTemp[0][0],goalsTemp[0][1]),goalsTemp[0][0],goalsTemp[0][1],(goalsTemp[0][0]-goalsTemp[0][1]));
+
+                    tempResults2.push(orderingJourneys[i][j][k][l+1],calculatingPoints(goalsTemp[0][1],goalsTemp[0][0]),goalsTemp[0][1],goalsTemp[0][0],(goalsTemp[0][1]-goalsTemp[0][0]));
+
+                    tempResults3.push(tempResults1,tempResults2);
+                    
+                } 
+            }
         }
+        tempResults.push(tempResults3);
+        // tempResults.push(tempResults2);
+
+        
+        // Table results of journey
+        // matchesJourneys+=templateResults;
+        // matchesJourneys+=tempResults+'\n';
+        matchesJourneys+='\n';
+        
+        /*for (let i = 0; i < tempResults.length; i++) {
+            for (let j = 0; j < tempResults[i].length; j++) {
+                let tempData=``;
+                for (let k = 0; k < tempResults[i][j].length; k++) {
+                    if (i===0) {
+                        tempData+=`      ${tempResults[i][j][k]}          `;
+                        
+                    } 
+                }
+                matchesJourneys+=`   ${tempData}\n`;
+            }
+        }*/
     }
+    // console.log(tempResults);
+    
 }
 
-
-// Funciona con solo 3 grupos
-/*for (let i = 0; i < journeyMatches.length; i++) {
-    let fakeIndex=0;
-    for (let j = 0; j < journeyMatches[i].length; j++) {
-        matchesJourneys+=`\nGrupo ${groupsAvailable[fakeIndex]} - Jornada ${(i+1)}:\n`;
-        let fakeIndex2=0;
-        for (let k = 0; k < journeyMatches[i][j].length; k++) {
-            
-            if (k%2===0) {
-                matchesJourneys+=`\n ${journeyMatches[fakeIndex][fakeIndex2][k]} - ${journeyMatches[fakeIndex][fakeIndex2][k+1]}\n`;
-            }
-        
-            fakeIndex2++;
-        }
-        fakeIndex++;
-    }
-    
-}*/
 console.log(matchesJourneys);
 console.log();
+
+
+
+
 /*==============================================================
                     Playoffs code below here
  ==============================================================*/
@@ -240,6 +265,21 @@ function goals(a,b){
         // }
     }
     return allGoals;
+}
+
+// Calculating points
+function calculatingPoints(a,b){
+    let points;
+    if (a>b) {
+        points=3;
+    }
+    else if(a<b){
+        points=0;
+    }
+    else{
+        points=1;
+    }
+    return points;
 }
 
 // Calculating winners and next round teams
