@@ -1,5 +1,10 @@
 /*Information in variables*/
 let phaseGroupsStartMsg=`Grupos y equipos\n===============================\n`;
+let startWorldCup=`===============================================
+======== COMIENZA LA EURO WOMEN’s CUP =========
+===============================================
+`;
+let matchesJourneys=``;
 
 let playoffStartMsg=`====================================================
 === COMIENZAN LAS FASES ELIMINATORIAS DEL TORNEO ===
@@ -12,6 +17,10 @@ const originalGroups=['Inglaterra','Austria','Noruega','Irlanda','Alemania','Din
 const originalGroupsLength=originalGroups.length;
 const groupsAvailable=['A','B','C','D'];
 const schemeMatches=[[0,3,1,2],[3,2,0,1],[1,3,2,0]];
+const orderingJourneys=[];
+const journeyMatches=[];
+const journeyGoals=[];
+
 
 const initGroupsPO=[];
 
@@ -79,6 +88,8 @@ randomTeamsGPhase();
 fakeIndex.length=0;
 
 for (let i = 0; i < initGroupsPO.length; i++) {
+    const journeyMatchesTemp=[];
+    const journeyGoalsTemp=[];
     let a = groupsAvailable[i];
     phaseGroupsStartMsg+=`\nGrupo ${a}\n--------------------`;
     for (let j = 0; j < initGroupsPO[i].length; j++) {
@@ -89,23 +100,95 @@ for (let i = 0; i < initGroupsPO.length; i++) {
 
     // Creating matches between group teams
     for (let k = 0; k < schemeMatches.length; k++) {
+        const journeyMatchesTemp1=[];
+        // const journeyGoalsTemp1=[];
         phaseGroupsStartMsg+=`\nJornada ${k+1}:`;
         for (let m = 0; m < schemeMatches[k].length; m++) {
             if (m%2===0) {
+                const journeyMatchesTemp2=[];
+                // const journeyGoalsTemp2=[];
                 let aa=schemeMatches[k][m];
                 let bb=schemeMatches[k][m+1];
                 phaseGroupsStartMsg+=`\n - ${initGroupsPO[i][aa]} vs ${initGroupsPO[i][bb]}`;
+                journeyMatchesTemp2.push(initGroupsPO[i][aa],initGroupsPO[i][bb]);
+                journeyMatchesTemp1.push(journeyMatchesTemp2);
+                
+                // journeyGoalsTemp2.push(goals(schemeMatches[k].length,2),goals(schemeMatches[k].length,2));
+                // journeyGoalsTemp1.push(journeyGoalsTemp2);
             }
         }
+        journeyMatchesTemp.push(journeyMatchesTemp1);
+        // journeyGoalsTemp1.push(goals(schemeMatches.length/2,2));
+        // journeyGoalsTemp.push(journeyGoalsTemp1);
         phaseGroupsStartMsg+=`\n`;
     }
 
+    journeyMatches.push(journeyMatchesTemp);
+    // journeyGoalsTemp.push(goals(initGroupsPO.length/2,2));
+    // journeyGoals.push(journeyGoalsTemp);
     phaseGroupsStartMsg+=`\n`;
 
 }
 
+// console.log(journeyMatches);
+// console.log(journeyGoals);
 console.log(phaseGroupsStartMsg);
 
+// Start group matches
+console.log(startWorldCup);
+
+// Groups and journeys
+// Creating order journeys with 4 groups
+function createJourneys(a){
+    const journeyTemp=[];
+    for (let i = 0; i < journeyMatches.length; i++) {
+        journeyTemp.push(journeyMatches[i][a]);
+    }
+    return journeyTemp;
+}
+
+for (let i = 0; i < journeyMatches[i].length; i++) {
+    orderingJourneys.push(createJourneys(i));
+}
+
+//  console.log(orderingJourneys);
+
+// Playing journey matches
+for (let i = 0; i < orderingJourneys.length; i++) {
+    for (let j = 0; j < orderingJourneys[i].length; j++) {
+        matchesJourneys+=`\nGrupo ${groupsAvailable[j]} - Jornada ${(i+1)}:\n------------------------------\n`;
+        for (let k = 0; k < orderingJourneys[i][j].length; k++) {
+            for (let l = 0; l < orderingJourneys[i][j][k].length; l++) {
+                if (l%2===0) {
+                    let goalsTemp=goals(orderingJourneys[i][j][k].length/2,8);
+                    matchesJourneys+=`${orderingJourneys[i][j][k][l]} ${goalsTemp[0][0]} - ${goalsTemp[0][1]} ${orderingJourneys[i][j][k][l+1]} \n`;
+                }
+            }   
+        }
+    }
+}
+
+
+// Funciona con solo 3 grupos
+/*for (let i = 0; i < journeyMatches.length; i++) {
+    let fakeIndex=0;
+    for (let j = 0; j < journeyMatches[i].length; j++) {
+        matchesJourneys+=`\nGrupo ${groupsAvailable[fakeIndex]} - Jornada ${(i+1)}:\n`;
+        let fakeIndex2=0;
+        for (let k = 0; k < journeyMatches[i][j].length; k++) {
+            
+            if (k%2===0) {
+                matchesJourneys+=`\n ${journeyMatches[fakeIndex][fakeIndex2][k]} - ${journeyMatches[fakeIndex][fakeIndex2][k+1]}\n`;
+            }
+        
+            fakeIndex2++;
+        }
+        fakeIndex++;
+    }
+    
+}*/
+console.log(matchesJourneys);
+console.log();
 /*==============================================================
                     Playoffs code below here
  ==============================================================*/
